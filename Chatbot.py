@@ -1,5 +1,4 @@
 
-pip install gensim numpy scipy
 
 from gensim.models import Word2Vec
 import numpy as np
