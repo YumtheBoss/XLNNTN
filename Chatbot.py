@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template_string, request
 from gensim.models import Word2Vec
 from scipy.spatial.distance import cosine
 import numpy as np
@@ -59,7 +59,7 @@ def get_response(user_input):
 # Tạo giao diện web
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template_string("index_html")
 
 
 @app.route("/get", methods=["POST"])
