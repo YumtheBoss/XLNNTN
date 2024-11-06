@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Word2Vec</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #chat-container { width: 500px; margin: 0 auto; margin-top: 50px; }
+        .user, .bot { padding: 10px; border-radius: 5px; margin-bottom: 10px; }
+        .user { background-color: #d1e7dd; text-align: right; }
+        .bot { background-color: #f8d7da; text-align: left; }
+        #user-input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <input type="text" id="user-input" placeholder="Nhập tin nhắn của bạn...">
+    </div>
+
+    <script>
+        function sendMessage() {
+            let userMessage = $("#user-input").val();
+            $("#chat-box").append("<div class='user'>" + userMessage + "</div>");
+            $.ajax({
+                url: "/get",
+                type: "POST",
+                data: { msg: userMessage },
+                success: function(response) {
+                    $("#chat-box").append("<div class='bot'>" + response + "</div>");
+                    $("#user-input").val("");
+                }
+            });
+        }
+
+        $(document).on("keypress", function(e) {
+            if(e.which == 13) {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
