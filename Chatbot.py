@@ -1,11 +1,12 @@
-from flask import Flask, render_template_string, request
+from flask import Flask, render_template, request
 from gensim.models import Word2Vec
 from scipy.spatial.distance import cosine
 import numpy as np
 import re
+import os
 
-# Khởi tạo Flask
-app = Flask(__name__)
+# Khởi tạo Flask, chỉ định template_folder là thư mục hiện tại
+app = Flask(__name__, template_folder=os.getcwd())
 
 # Dữ liệu huấn luyện với câu hỏi và câu trả lời mẫu
 data = {
@@ -59,7 +60,7 @@ def get_response(user_input):
 # Tạo giao diện web
 @app.route("/")
 def home():
-    return render_template_string("index_html")
+    return render_template("index.html")
 
 
 @app.route("/get", methods=["POST"])
