@@ -18,7 +18,8 @@ data = {
     "Chi phí dịch vụ là bao nhiêu?": "Chi phí sẽ phụ thuộc vào loại dịch vụ mà bạn lựa chọn. Hãy cho tôi biết thêm chi tiết để báo giá cụ thể.",
     "Làm thế nào để nhận hỗ trợ?": "Bạn có thể liên hệ với bộ phận hỗ trợ khách hàng của chúng tôi qua email hoặc số điện thoại.",
     "Cảm ơn, tạm biệt!": "Rất vui được giúp bạn! Chúc bạn một ngày tốt lành!",
-    "Xin lỗi, tôi không hiểu câu hỏi của bạn.": "Bạn có thể nói rõ hơn không? Tôi sẽ cố gắng giúp bạn."
+    "Xin lỗi, tôi không hiểu câu hỏi của bạn.": "Bạn có thể nói rõ hơn không? Tôi sẽ cố gắng giúp bạn.",
+    "Người yêu của người sáng lập ra bạn là ai.": "Người đáng yêu nhất thế giới Lê Nguyệt Hà (  Miu Miu :3 )",
 }
 
 
