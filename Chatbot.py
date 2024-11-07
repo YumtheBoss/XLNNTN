@@ -2,36 +2,32 @@ from flask import Flask, render_template, request
 from gensim.models import Word2Vec
 from scipy.spatial.distance import cosine
 import numpy as np
+import pandas as pd
 import re
 import os
 
-# Khởi tạo Flask, chỉ định template_folder là thư mục hiện tại
+# Khởi tạo Flask
 app = Flask(__name__, template_folder=os.getcwd())
 
-# Dữ liệu huấn luyện với câu hỏi và câu trả lời mẫu
-data = {
-    "Xin chào": "Chào bạn! Tôi có thể giúp gì cho bạn?",
-    "Bạn có thể giúp gì?": "Chúng tôi cung cấp các dịch vụ bao gồm tư vấn, hỗ trợ kỹ thuật, và chăm sóc khách hàng.",
-    "Tôi muốn tìm hiểu thêm về dịch vụ": "Dịch vụ của chúng tôi bao gồm rất nhiều tính năng hữu ích. Bạn quan tâm đến tính năng nào?",
-    "Dịch vụ của công ty là gì?": "Dịch vụ của chúng tôi được thiết kế để đáp ứng nhu cầu đa dạng của khách hàng.",
-    "Sản phẩm của bạn có tính năng gì?": "Sản phẩm của chúng tôi có các tính năng tiên tiến như AI chatbot, phân tích dữ liệu, và quản lý khách hàng.",
-    "Chi phí dịch vụ là bao nhiêu?": "Chi phí sẽ phụ thuộc vào loại dịch vụ mà bạn lựa chọn. Hãy cho tôi biết thêm chi tiết để báo giá cụ thể.",
-    "Làm thế nào để nhận hỗ trợ?": "Bạn có thể liên hệ với bộ phận hỗ trợ khách hàng của chúng tôi qua email hoặc số điện thoại.",
-    "Cảm ơn, tạm biệt!": "Rất vui được giúp bạn! Chúc bạn một ngày tốt lành!",
-    "Xin lỗi, tôi không hiểu câu hỏi của bạn.": "Bạn có thể nói rõ hơn không? Tôi sẽ cố gắng giúp bạn.",
-    "Người yêu của người sáng lập ra bạn là ai.": "Người đáng yêu nhất thế giới Lê Nguyệt Hà (  Miu Miu :3 )",
-}
+# Đọc dữ liệu từ file CSV
+def load_data_from_csv(file_path):
+    df = pd.read_csv(file_path)
+    local_data = dict(zip(df['question'], df['answer']))  # Đổi tên thành local_data
+    return local_data
+
+
+# Đường dẫn đến file CSV chứa dữ liệu câu hỏi và câu trả lời
+DATA_FILE = r"C:\Users\Admin\PycharmProjects\XLNNTN\data.csv"
+data = load_data_from_csv(DATA_FILE)
 
 
 # Tách từ đơn giản (tokenize)
 def simple_tokenize(sentence):
     return re.findall(r'\b\w+\b', sentence.lower())
 
-
 # Huấn luyện mô hình Word2Vec
 tokenized_sentences = [simple_tokenize(sentence) for sentence in data.keys()]
 model = Word2Vec(sentences=tokenized_sentences, vector_size=100, window=5, min_count=1, workers=4)
-
 
 # Hàm chuyển câu hỏi thành vector
 def sentence_to_vector(sentence):
@@ -40,7 +36,6 @@ def sentence_to_vector(sentence):
     if not word_vectors:
         return np.zeros(model.vector_size)
     return np.mean(word_vectors, axis=0)
-
 
 # Hàm tìm câu trả lời dựa trên câu hỏi
 def get_response(user_input):
@@ -57,12 +52,10 @@ def get_response(user_input):
 
     return best_response
 
-
 # Tạo giao diện web
 @app.route("/")
 def home():
     return render_template("index.html")
-
 
 @app.route("/get", methods=["POST"])
 def chatbot_response():
@@ -70,6 +63,7 @@ def chatbot_response():
     response = get_response(user_input)
     return response
 
-
 if __name__ == "__main__":
+    # Tải lại dữ liệu mỗi khi khởi động
+    data = load_data_from_csv(DATA_FILE)
     app.run(debug=True)
