@@ -1,5 +1,6 @@
-import csv
+import pandas as pd
 
+# Dữ liệu câu hỏi và câu trả lời
 data = [
     # Câu chào hỏi
     ("Xin chào", "Chào bạn! Tôi có thể giúp gì cho bạn?"),
@@ -10,8 +11,7 @@ data = [
     ("Bạn có thể giúp gì?", "Tôi có thể hỗ trợ bạn về các dịch vụ, sản phẩm và thông tin khác của công ty."),
     ("Tôi muốn tìm hiểu thêm về dịch vụ", "Chúng tôi cung cấp tư vấn, hỗ trợ kỹ thuật, và chăm sóc khách hàng."),
     ("Dịch vụ của bạn bao gồm những gì?", "Chúng tôi có nhiều dịch vụ hữu ích. Bạn quan tâm đến dịch vụ nào?"),
-    ("Dịch vụ của công ty gồm các tính năng nào?",
-     "Chúng tôi có các tính năng như tư vấn, hỗ trợ kỹ thuật và chăm sóc khách hàng."),
+    ("Dịch vụ của công ty gồm các tính năng nào?", "Chúng tôi có các tính năng như tư vấn, hỗ trợ kỹ thuật và chăm sóc khách hàng."),
     ("Dịch vụ của công ty đáp ứng nhu cầu gì?", "Dịch vụ của chúng tôi phù hợp với nhu cầu đa dạng của khách hàng."),
 
     # Câu hỏi về thông tin công ty
@@ -20,8 +20,7 @@ data = [
 
     # Câu hỏi về tính năng sản phẩm
     ("Sản phẩm của bạn có tính năng gì?", "Sản phẩm có AI chatbot, phân tích dữ liệu và quản lý khách hàng."),
-    ("Các tính năng chính của sản phẩm là gì?",
-     "Các tính năng chính gồm quản lý khách hàng, phân tích dữ liệu và báo cáo chi tiết."),
+    ("Các tính năng chính của sản phẩm là gì?", "Các tính năng chính gồm quản lý khách hàng, phân tích dữ liệu và báo cáo chi tiết."),
 
     # Câu hỏi về giá cả
     ("Chi phí dịch vụ là bao nhiêu?", "Chi phí phụ thuộc vào dịch vụ bạn chọn. Bạn có thể cho tôi biết thêm chi tiết."),
@@ -39,9 +38,11 @@ data = [
     ("Xin lỗi, tôi không hiểu câu hỏi của bạn.", "Bạn có thể nói rõ hơn không? Tôi sẽ cố gắng giúp bạn."),
     ("Câu hỏi chưa rõ ràng.", "Mong bạn nói chi tiết hơn để tôi có thể hỗ trợ.")
 ]
-file_path = "data.csv"
-with open(file_path, mode="w", newline="", encoding="utf-8") as file:
-    writer = csv.writer(file)
-    writer.writerows(data)
 
-print(f"File CSV '{file_path}' đã được tạo thành công.")
+# Chuyển dữ liệu thành DataFrame
+df = pd.DataFrame(data, columns=["question", "answer"])
+
+# Lưu DataFrame vào file CSV
+df.to_csv("data.csv", index=False, encoding="utf-8-sig")
+
+print("File CSV đã được tạo thành công.")
